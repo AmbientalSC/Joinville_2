@@ -19,9 +19,11 @@
             margin: 0;
         }
         </style>
-        <title></title>
-    </head>
+        
+        <title>Mapa da coleta Joinville</title>
+        <link rel="shortcut icon" type="image/jpg" href="icon.ico"/>    </head>
     <body>
+        <div id="aviso">1 - Seleciona a operação que deseja <br>2 - Pesquise por Rua, N° e Cidade<br>3 - Clique na linha sobre a rua, no local mais próximo à sua pesquisa</div>
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -44,7 +46,7 @@
             zoomControl:true, maxZoom:20, minZoom:9
         }).fitBounds([[-26.379796218582634,-49.04127914270512],[-26.21142504358263,-48.788881521202285]]);
         var hash = new L.Hash(map);
-        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        map.attributionControl.setPrefix('<a href="https://ambiental.sc" target="_blank">Ambiental SC</a> &middot;');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         function removeEmptyRowsFromPopupContent(content, feature) {
          var tempDiv = document.createElement('div');
@@ -95,16 +97,16 @@
                         <td>' + (feature.properties['TURNO'] !== null ? autolinker.link(feature.properties['TURNO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">OPERACAO</th>\
-                        <td>' + (feature.properties['OPERACAO'] !== null ? autolinker.link(feature.properties['OPERACAO'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">HORARIO</th>\
+                        <td>' + (feature.properties['HORARIO'] !== null ? autolinker.link(feature.properties['HORARIO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">FILIAL</th>\
                         <td>' + (feature.properties['FILIAL'] !== null ? autolinker.link(feature.properties['FILIAL'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">HORARIO</th>\
-                        <td>' + (feature.properties['HORARIO'] !== null ? autolinker.link(feature.properties['HORARIO'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">OPERACAO</th>\
+                        <td>' + (feature.properties['OPERACAO'] !== null ? autolinker.link(feature.properties['OPERACAO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -531,12 +533,20 @@
         });
         bounds_group.addLayer(layer_Seletiva_2);
         map.addLayer(layer_Seletiva_2);
-        var osmGeocoder = new L.Control.Geocoder({
-            collapsed: true,
+        // var osmGeocoder = new L.Control.Geocoder({
+        //     collapsed: true,
+        //     position: 'topleft',
+        //     text: 'Search',
+        //     title: 'Testing'
+        // }).addTo(map);
+        var googleGeocoder = new L.Control.Geocoder({
+            geocoder: L.Control.Geocoder.google('AIzaSyCiKpZmnL9TQXOJd9Qbzw2agE9kxnTGZ38', {}),
+            collapsed: false,
             position: 'topleft',
             text: 'Search',
             title: 'Testing'
         }).addTo(map);
+        
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
@@ -550,8 +560,8 @@
         var col1 = document.createElement('div');
         col1.className="col9";
         col1.id = "mapWindow";
-        col1.style.height = "99%";
-        col1.style.width = "80%";
+        col1.style.height = "100%";
+        col1.style.width = "100%";
         col1.style.display = "inline-block";
         var col2 = document.createElement('div');
         col2.className="col3";
@@ -661,18 +671,15 @@
             sel_OPERACAO.multiple = true;
             sel_OPERACAO.size = 2;
             sel_OPERACAO.id = "sel_OPERACAO";
-            var OPERACAO_options_str = "<option value='' unselected></option>";
+            var OPERACAO_options_str = "<option value='Domiciliar' unselected>Domiciliar</option>";
             sel_OPERACAO.onchange = function(){filterFunc()};
-            OPERACAO_options_str  += '<option value="Domiciliar">Domiciliar</option>';
-            OPERACAO_options_str  += '<option value="SELETIVA">SELETIVA</option>';
+            OPERACAO_options_str  += '<option value="SELETIVA">Seletiva</option>';
             sel_OPERACAO.innerHTML = OPERACAO_options_str;
             div_OPERACAO.appendChild(sel_OPERACAO);
             var lab_OPERACAO = document.createElement('div');
-            lab_OPERACAO.innerHTML = 'OPERACAO';
             lab_OPERACAO.className = 'filterlabel';
             div_OPERACAO.appendChild(lab_OPERACAO);
             var reset_OPERACAO = document.createElement('div');
-            reset_OPERACAO.innerHTML = 'clear filter';
             reset_OPERACAO.className = 'filterlabel';
             reset_OPERACAO.onclick = function() {
                 var options = document.getElementById("sel_OPERACAO").options;
