@@ -241,23 +241,23 @@
         function pop_Seletiva_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">FREQUENCIA</th>\
+                        <th scope="row">Frequência: </th>\
                         <td>' + (feature.properties['FREQUENCIA'] !== null ? autolinker.link(feature.properties['FREQUENCIA'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">TURNO</th>\
+                        <th scope="row">Turno:</th>\
                         <td>' + (feature.properties['TURNO'] !== null ? autolinker.link(feature.properties['TURNO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">HORARIO</th>\
+                        <th scope="row">Horário:</th>\
                         <td>' + (feature.properties['HORARIO'] !== null ? autolinker.link(feature.properties['HORARIO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">FILIAL</th>\
+                        <th scope="row">Filial:</th>\
                         <td>' + (feature.properties['FILIAL'] !== null ? autolinker.link(feature.properties['FILIAL'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">OPERACAO</th>\
+                        <th scope="row">Operação:</th>\
                         <td>' + (feature.properties['OPERACAO'] !== null ? autolinker.link(feature.properties['OPERACAO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -546,7 +546,7 @@
             text: 'Search',
             title: 'Testing'
         }).addTo(map);
-        
+
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
