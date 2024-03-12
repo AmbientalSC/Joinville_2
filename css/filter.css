@@ -25,7 +25,7 @@
     #aviso {
         width: 90%; /* Define a largura como 90% da largura da tela em dispositivos com largura de tela de até 600 pixels */
         left: 50%;
-        top: 32%;
+        top: 22%;
         transform: translate(-50%, -50%);
     }
 }
