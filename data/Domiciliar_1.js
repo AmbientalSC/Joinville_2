@@ -44246,7 +44246,7 @@ var json_Domiciliar_1 = {
     }, {
         "type": "Feature",
         "properties": {
-            "FREQUENCIA": "Ter-qui-sáb",
+            "FREQUENCIA": "Seg-qua-sex",
             "TURNO": "Tarde",
             "CONCAT": "Ter-qui-sáb - Tarde",
             "OPERACAO": "Domiciliar",
