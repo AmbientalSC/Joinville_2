@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/filter.css">
-<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <style>
         html, body, #map {
@@ -20,11 +20,44 @@
             padding: 0;
             margin: 0;
         }
+        #container {
+            top: 17%;
+            position: absolute;
+            z-index: 1000; 
+            padding-left: 10px;
+        }
+        #infoDiv {
+            position: relative;
+            top: 10%;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.752);
+            padding: 10px;
+            padding-left: 10px; /* Espaço inicial da borda esquerda */
+            width:265px;
+            display: none;
+
+          }
+          #infoDiv2 {
+            position: relative;
+            top: 10%;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.752);
+            padding: 10px;
+            padding-left: 10px; /* Espaço inicial da borda esquerda */
+            width: 265px;
+            display: none;
+          }
         </style>
+        <link rel="shortcut icon" type="image/jpg" href="icon.ico"/>    </head>
         <title>Mapa da coleta Joinville</title>
     </head>
     <body>
-        <div id="aviso">1 - Selecione a operação que deseja <br>2 - Pesquise por Rua, N° e Cidade<br>3 - Clique na linha sobre a rua, no local mais próximo à sua pesquisa</div>
+        <div id="container">
+        <div id="infoDiv"></div>
+        <div id="infoDiv2"></div>
+        </div>
+
+        <!-- <div id="aviso">1 - Selecione a operação que deseja <br>2 - Pesquise por Rua, N° e Cidade<br>3 - Clique na linha sobre a rua, no local mais próximo à sua pesquisa</div> -->
 
         <div id="map">
         </div>
@@ -2122,6 +2155,125 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         setBounds();
+
+
+
+
+
+
+        
+
+
+
+        googleGeocoder.on('markgeocode', function(event) {
+            document.getElementById('infoDiv2').style.display = 'block';
+            document.getElementById("infoDiv2").innerHTML = "";
+
+
+            // Obtém as coordenadas do endereço pesquisado
+            var latLng = event.geocode.center;
+        
+            // Inicializa variáveis para armazenar a coordenada mais próxima, a menor distância e a distância do ponto mais próximo
+            var nearestCoordinate;
+            var shortestDistance = Infinity;
+            var nearestDistance = Infinity;
+        
+            // Itera sobre todas as coordenadas no arquivo Dissolvido_1.js
+            json_SELJOINVILLE_1.features.forEach(function(feature) {
+                var coordinates = feature.geometry.coordinates;
+        
+                // Inicializa a menor distância como infinito para garantir que qualquer outra distância seja menor
+                var featureShortestDistance = Infinity;
+        
+                // Itera sobre todos os pontos da geometria da feature para calcular a distância
+                for (var i = 0; i < coordinates.length; i++) {
+                    for (var j = 0; j < coordinates[i].length; j++) {
+                        var distance = L.latLng(coordinates[i][j][1], coordinates[i][j][0]).distanceTo(latLng);
+        
+                        // Verifica se esta é a menor distância até agora para esta feature
+                        if (distance < featureShortestDistance) {
+                            featureShortestDistance = distance;
+                        }
+                    }
+                }
+        
+                // Verifica se esta é a menor distância entre todas as features
+                if (featureShortestDistance < 1000 && featureShortestDistance < shortestDistance) {
+                    shortestDistance = featureShortestDistance;
+                    nearestCoordinate = feature;
+                    nearestDistance = featureShortestDistance;
+                }
+            });
+        
+            // Verifica se encontrou uma coordenada próxima
+            if (nearestCoordinate) {
+                document.getElementById("infoDiv2").innerHTML = 
+                "<b>Seletiva:</b>" + "<br>" +
+                "Frequência: " + nearestCoordinate.properties.FREQUENCIA + "<br>" +
+                "Turno: " + nearestCoordinate.properties.TURNO + "<br>" +
+                "Horário: " + nearestCoordinate.properties.HORARIO + "<br>";
+            }
+        });
+
+        googleGeocoder.on('markgeocode', function(event) {
+            document.getElementById('infoDiv').style.display = 'block';
+            document.getElementById("infoDiv").innerHTML = "";
+
+
+            // Obtém as coordenadas do endereço pesquisado
+            var latLng = event.geocode.center;
+        
+            // Inicializa variáveis para armazenar a coordenada mais próxima, a menor distância e a distância do ponto mais próximo
+            var nearestCoordinate;
+            var shortestDistance = Infinity;
+            var nearestDistance = Infinity;
+        
+            // Itera sobre todas as coordenadas no arquivo Dissolvido_1.js
+            json_Domiciliar_2.features.forEach(function(feature) {
+                var coordinates = feature.geometry.coordinates;
+        
+                // Inicializa a menor distância como infinito para garantir que qualquer outra distância seja menor
+                var featureShortestDistance = Infinity;
+        
+                // Itera sobre todos os pontos da geometria da feature para calcular a distância
+                for (var i = 0; i < coordinates.length; i++) {
+                    for (var j = 0; j < coordinates[i].length; j++) {
+                        var distance = L.latLng(coordinates[i][j][1], coordinates[i][j][0]).distanceTo(latLng);
+        
+                        // Verifica se esta é a menor distância até agora para esta feature
+                        if (distance < featureShortestDistance) {
+                            featureShortestDistance = distance;
+                        }
+                    }
+                }
+        
+                // Verifica se esta é a menor distância entre todas as features
+                if (featureShortestDistance < 1000 && featureShortestDistance < shortestDistance) {
+                    shortestDistance = featureShortestDistance;
+                    nearestCoordinate = feature;
+                    nearestDistance = featureShortestDistance;
+                }
+            });
+        
+            // Verifica se encontrou uma coordenada próxima
+            if (nearestCoordinate) {
+                document.getElementById("infoDiv").innerHTML = 
+                "<b>Domiciliar:</b>" + "<br>" +
+                "Frequência: " + nearestCoordinate.properties.FREQUENCIA + "<br>" +
+                "Turno: " + nearestCoordinate.properties.TURNO + "<br>" +
+                "Horário: " + nearestCoordinate.properties.HORARIO + "<br>";
+            }
+        });
+
+
+
+
+
+
+
+
+
+
         var mapDiv = document.getElementById('map');
         var row = document.createElement('div');
         row.className="row";
