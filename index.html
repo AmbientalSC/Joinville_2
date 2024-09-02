@@ -118,7 +118,7 @@
             }
         }
         var map = L.map('map', {
-            zoomControl:false, maxZoom:20, minZoom:1
+            zoomControl:false, maxZoom:18, minZoom:1
         }).fitBounds([[-26.384080068600078,-48.9356044484359],[-26.261445282389822,-48.71822320842164]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix(' <a href="https://github.com/AmbientalSC" title="Ambiental Limpeza Urbana e Saneamento Ltda">rev20/06/24</a> &middot;<a href="https://ambiental.sc/" target="_blank">Ambiental.sc</a> &middot;');        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -628,13 +628,14 @@
         });
         bounds_group.addLayer(layer_DOMJOINVILLEAGRUPADO_2);
         map.addLayer(layer_DOMJOINVILLEAGRUPADO_2);
+
         var googleGeocoder = new L.Control.Geocoder({
-            geocoder: L.Control.Geocoder.google('AIzaSyCiKpZmnL9TQXOJd9Qbzw2agE9kxnTGZ38', {}),
             collapsed: false,
             position: 'topleft',
             text: 'Search',
             title: 'Testing'
         }).addTo(map);
+
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
