@@ -11,7 +11,7 @@ module.exports = {
 			expand: 'touch', // options: touch, click, anythingelse
 			position: 'topright',
 			placeholder: 'Pesquise RUA/CEP + N° + Cidade...',
-			errorMessage: 'Nothing found.',
+			errorMessage: 'Endereço não encontrado.',
 			suggestMinLength: 3,
 			suggestTimeout: 250,
 			defaultMarkGeocode: true
